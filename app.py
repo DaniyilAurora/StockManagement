@@ -25,6 +25,8 @@ class App():
             connection = Connection()
             records = connection.get_records()
             connection.close()
+
+            # Creates a simple html for database records
             records_string = ""
             for record in records:
                 records_string += f'<p>{record}</p>\n<br>\n'

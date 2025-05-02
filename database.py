@@ -11,8 +11,8 @@ class Database():
         if self.is_first_launch():
             self.create_tables()
 
+    # Create tables in the database
     def create_tables(self):
-        # Create tables in the database
 
         # Create "stocks" table
         self.cursor.execute("""
@@ -50,8 +50,8 @@ class Database():
 
         self.connection.commit()
 
+    # Check for first launch of an app (if table "stocks" exist)
     def is_first_launch(self) -> bool:
-        # Check for first launch of an app (if table "stocks" exist)
         self.cursor.execute("""
             SELECT name FROM sqlite_master
             WHERE type='table' AND name=?;
