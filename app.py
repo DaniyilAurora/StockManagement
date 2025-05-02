@@ -1,5 +1,6 @@
 from flask import Flask
 from database import Database
+from connection import Connection
 
 
 class App():
@@ -11,13 +12,24 @@ class App():
 
     # Setup database for the app
     def setup_database(self):
-        database = Database()
+        self.database = Database()
 
     # Setup routes for the app
     def setup_routes(self):
         @self.app.route("/")
         def home():
             return "<p>Hello, World!</p>"
+
+        @self.app.route("/db")
+        def debugDatabase():
+            connection = Connection()
+            records = connection.get_records()
+            connection.close()
+            records_string = ""
+            for record in records:
+                records_string += f'<p>{record}</p>\n<br>\n'
+
+            return records_string
 
     def run(self):
         self.app.run(debug=True)

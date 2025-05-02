@@ -6,7 +6,7 @@ class Database():
     def __init__(self):
         self.connection = sqlite3.connect("db.db")
         self.cursor = self.connection.cursor()
-        
+
         # Ensure tables exist
         if self.is_first_launch():
             self.create_tables()
@@ -19,6 +19,7 @@ class Database():
                 CREATE TABLE stocks(
                     id INTEGER PRIMARY KEY,
                     name VARCHAR(255),
+                    price REAL,
                     image_path VARCHAR(255),
                     is_in_stock BOOLEAN
                 );
@@ -34,7 +35,7 @@ class Database():
                     password BLOB
                 );
         """)
-        
+
         self.connection.commit()
 
         # Create "sessions" table
