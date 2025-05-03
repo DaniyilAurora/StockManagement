@@ -7,16 +7,16 @@ class Connection():
         self.connection = sqlite3.connect("db.db")
         self.cursor = self.connection.cursor()
 
-    # Add a new record to the stocks (TEST FUNCTIONALITY)
-    def add_record(self, name: str, price: float, image_path: str, is_in_stock: bool):
+    # Add a new record to the stocks (TEST FUNCTIONALITY) TODO: REMOVE LATER
+    def add_record(self, name: str, category: str, quantity: str, price: float):
         self.cursor.execute("""
             INSERT INTO stocks
-            (name, price, image_path, is_in_stock)
+            (name, category, quantity, price)
             VALUES (?, ?, ?, ?);
-        """, (name, price, image_path, is_in_stock))
+        """, (name, category, quantity, price))
         self.connection.commit()
 
-    # Returns stocks records (TEST FUNCTIONALITY)
+    # Returns stocks records (TEST FUNCTIONALITY) TODO: REMOVE LATER
     def get_records(self):
         self.cursor.execute("""
             SELECT * FROM stocks;

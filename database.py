@@ -19,9 +19,9 @@ class Database():
                 CREATE TABLE stocks(
                     id INTEGER PRIMARY KEY,
                     name VARCHAR(255),
-                    price REAL,
-                    image_path VARCHAR(255),
-                    is_in_stock BOOLEAN
+                    category VARCHAR(255),
+                    quantity INTEGER,
+                    price REAL
                 );
         """)
 

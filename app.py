@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from database import Database
 from connection import Connection
 
@@ -26,12 +26,7 @@ class App():
             records = connection.get_records()
             connection.close()
 
-            # Creates a simple html for database records
-            records_string = ""
-            for record in records:
-                records_string += f'<p>{record}</p>\n<br>\n'
-
-            return records_string
+            return render_template("index.html", records=records)
 
     def run(self):
-        self.app.run(debug=True)
+        self.app.run(debug=False)
