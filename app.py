@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from database import Database
 from connection import Connection
 
@@ -21,12 +21,39 @@ class App():
             return "<p>Hello, World!</p>"
 
         @self.app.route("/db")
-        def debugDatabase():
+        def database_display():
             connection = Connection()
             records = connection.get_records()
             connection.close()
 
             return render_template("index.html", records=records)
 
+        @self.app.route("/addStock", methods=['POST'])
+        def add_stock():
+            connection = Connection()
+
+            # TODO: Add checks to input (if not empty etc.)
+            name = request.form['name']
+            category = request.form['category']
+            quantity = request.form['quantity']
+            price = request.form['price']
+
+            connection.add_record(name, category, quantity, price)
+            connection.close()
+
+            return redirect(url_for('database_display'))
+        
+        @self.app.route("/removeStock", methods=['POST'])
+        def remove_stock():
+            connection = Connection()
+
+            # TODO: Add checks to input (if id > 0 etc.)
+            id = int(request.form['id'])
+
+            connection.remove_record(id)
+            connection.close()
+
+            return redirect(url_for('database_display'))
+
     def run(self):
-        self.app.run(debug=False)
+        self.app.run(debug=True)
