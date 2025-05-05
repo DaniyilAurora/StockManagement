@@ -33,24 +33,26 @@ class App():
             connection = Connection()
 
             # TODO: Add checks to input (if not empty etc.)
-            name = request.form['name']
-            category = request.form['category']
-            quantity = request.form['quantity']
-            price = request.form['price']
+            name = request.form['name'].strip()
+            category = request.form['category'].strip()
+            quantity = request.form['quantity'].strip()
+            price = request.form['price'].strip()
 
-            connection.add_record(name, category, quantity, price)
+            if name and category and quantity and price:
+                connection.add_record(name, category, quantity, price)
             connection.close()
 
             return redirect(url_for('database_display'))
-        
+
         @self.app.route("/removeStock", methods=['POST'])
         def remove_stock():
             connection = Connection()
 
             # TODO: Add checks to input (if id > 0 etc.)
-            id = int(request.form['id'])
+            id = request.form['id']
+            if id and int(id) > 0:
+                connection.remove_record(int(id))
 
-            connection.remove_record(id)
             connection.close()
 
             return redirect(url_for('database_display'))
