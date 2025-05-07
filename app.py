@@ -49,9 +49,10 @@ class App():
             
             connection = Connection()
             records = connection.get_records()
+            categories = connection.get_categories()
             connection.close()
 
-            return render_template("index.html", records=records)
+            return render_template("index.html", records=records, categories=categories)
 
         @self.app.route("/addStock", methods=['POST'])
         def add_stock():

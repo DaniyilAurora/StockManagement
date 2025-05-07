@@ -35,7 +35,12 @@
             <input type="text" id="name" name="name" placeholder="Name">
             <br>
             <label for="category">Category:</label>
-            <input type="text" id="category" name="category" placeholder="Category">
+            <input list="categorys" id="category" name="category" placeholder="Category" autocomplete="off">
+            <datalist id="categorys">
+                {% for category in categories %}
+                <option value="{{ category }}">
+                {% endfor %}
+            </datalist>
             <br>
             <label for="quantity">Quantity:</label>
             <input type="number" id="quantity" name="quantity" placeholder="Quantity">

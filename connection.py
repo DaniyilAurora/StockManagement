@@ -33,6 +33,20 @@ class Connection():
 
         return stocks
 
+    def get_categories(self):
+        self.cursor.execute("""
+            SELECT DISTINCT category
+            FROM stocks
+            ORDER BY category ASC;
+        """)
+
+        rows = self.cursor.fetchall()
+
+        # Make a tuple into list of strings
+        categories = [row[0] for row in rows]
+
+        return categories
+
     # Get userID using username and encoded password
     def get_id(self, username: str, password: str):
         self.cursor.execute("""
