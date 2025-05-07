@@ -4,7 +4,7 @@ import sqlite3
 class Connection():
     # Initialise connection
     def __init__(self):
-        self.connection = sqlite3.connect("db.db")
+        self.connection = sqlite3.connect("db.db", check_same_thread=False)
         self.cursor = self.connection.cursor()
 
     # Add a new record to the stocks
@@ -32,6 +32,17 @@ class Connection():
         stocks = self.cursor.fetchall()
 
         return stocks
+
+    # Get userID using username and encoded password
+    def get_id(self, username: str, password: str):
+        self.cursor.execute("""
+            SELECT id FROM accounts WHERE username = ? AND password = ?
+        """, (username, password))
+
+        result = self.cursor.fetchone()
+
+        # In order to return integer, or None
+        return result[0] if result else None
 
     # Closes the connection
     def close(self):

@@ -4,8 +4,11 @@ import sqlite3
 class Database():
     # Initialise database
     def __init__(self):
-        self.connection = sqlite3.connect("db.db")
+        self.connection = sqlite3.connect("db.db", check_same_thread=False)
         self.cursor = self.connection.cursor()
+
+        # self.cursor.execute("INSERT INTO accounts VALUES (1, 'admin', '5f4dcc3b5aa765d61d8327deb882cf99')")
+        # self.connection.commit()
 
         # Ensure tables exist
         if self.is_first_launch():
