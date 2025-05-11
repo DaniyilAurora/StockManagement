@@ -46,7 +46,7 @@ class App():
             # If user is not logged in, send to /login page
             if 'user_id' not in session:
                 return redirect('/login')
-            
+
             connection = Connection()
             records = connection.get_records()
             categories = connection.get_categories()

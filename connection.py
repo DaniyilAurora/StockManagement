@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime
 
 
 class Connection():
@@ -9,6 +10,7 @@ class Connection():
 
     # Add a new record to the stocks
     def add_record(self, name: str, category: str, quantity: str, price: float):
+        # Add record to stocks
         self.cursor.execute("""
             INSERT INTO stocks
             (name, category, quantity, price)
@@ -16,11 +18,36 @@ class Connection():
         """, (name, category, quantity, price))
         self.connection.commit()
 
+        # Add log information to stockUpdates
+        self.cursor.execute("""
+            INSERT INTO stockUpdates
+            (date, updateType, name, quantity, updateInformation)
+            VALUES (?, ?, ?, ?, ?);
+        """, (datetime.now().date(), "Add", name, quantity, "New stock added"))
+        self.connection.commit()
+
     # Removes a record from the stocks
     def remove_record(self, id: int):
+        # Get record data
+        self.cursor.execute("""
+            SELECT * FROM stocks WHERE id=?;
+        """, (id,))
+        record_data = self.cursor.fetchall()
+
+        # Remove record from stocks
         self.cursor.execute("""
             DELETE FROM stocks WHERE id=?;
         """, (id,))
+        self.connection.commit()
+
+        # Add log information to stockUpdates
+        print(record_data)
+        print(record_data[0][1])
+        self.cursor.execute("""
+            INSERT INTO stockUpdates
+            (date, updateType, name, quantity, updateInformation)
+            VALUES (?, ?, ?, ?, ?);
+        """, (datetime.now().date(), "Remove", record_data[0][1], -record_data[0][3], "Stock removed"))
         self.connection.commit()
 
     # Returns stocks records

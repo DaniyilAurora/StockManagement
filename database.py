@@ -53,6 +53,20 @@ class Database():
 
         self.connection.commit()
 
+        # Create "stockUpdates" table
+        self.cursor.execute("""
+                CREATE TABLE stockUpdates(
+                    id INTEGER PRIMARY KEY,
+                    date DATETIME,
+                    updateType VARCHAR(255),
+                    name VARCHAR(255),
+                    quantity INTEGER,
+                    updateInformation TEXT
+                );
+        """)
+
+        self.connection.commit()
+
     # Check for first launch of an app (if table "stocks" exist)
     def is_first_launch(self) -> bool:
         self.cursor.execute("""
